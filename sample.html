@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script type="text/javascript">
+
+        function rectangle(x, y, width, height, radius){
+        console.log("M" + (x + radius) + "," + y + "h" + (width - 2*radius) + "a" + radius + "," + radius + " 0 0 1 " + radius + "," + radius + "v" + (height - 2*radius) + "v" + radius + "h" + -radius + "h" + (2*radius - width) + "h" + -radius + "v" + -radius + "v" + (2*radius - height) + "a" + radius + "," + radius + " 0 0 1 " + radius + "," + -radius + "z");
+	return "M" + (x + radius) + "," + y + "h" + (width - 2*radius) + "a" + radius + "," + radius + " 0 0 1 " + radius + "," + radius + "v" + (height - 2*radius) + "v" + radius + "h" + -radius + "h" + (2*radius - width) + "h" + -radius + "v" + -radius + "v" + (2*radius - height) + "a" + radius + "," + radius + " 0 0 1 " + radius + "," + -radius + "z";
+
+};
+
+
+
+var data = [40, 50, 30, 40, 90, 54, 20, 35, 60, 42];
+var legend =["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct"]
+
+
+var svg = d3.select("#chart1")
+
+	.append("svg")
+
+	.attr("width", 800)
+
+	.attr("height", 620);
+
+	
+
+var rects = svg.selectAll(".paths").data(data).enter().append("path");
+
+rects.attr("d", function(d,i){ return rectangle(10+40*i,100-d,20,d,5)});
+
+
+
+var texts = svg.selectAll(".text").data(legend).enter().append("text").attr("y",114).attr("x", function(d,i){return 16+40*i}).text(function(d){return d});
+
+    </script>
+    <style>
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+        path {
+
+  fill:teal;
+
+}
+
+
+
+text {
+
+  fill:darkslategray;
+
+  font-size: 12px;
+
+}
+
+    </style>
+
+   
+
+    </head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                    <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div id="chart1"></div>
+                            </div>
+                    </div>
+
+            </div>
+            <div class="col-md-6">
+                 <div class="panel panel-default">
+                          <div class="panel-body">
+                              <div id="chart2"></div>
+                              </div>
+                </div>   
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
