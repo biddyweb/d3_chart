@@ -13,44 +13,101 @@
 <script type="text/javascript">
 
         function rectangle(x, y, width, height, radius){
-        console.log("M" + (x + radius) + "," + y + "h" + (width - 2*radius) + "a" + radius + "," + radius + " 0 0 1 " + radius + "," + radius + "v" + (height - 2*radius) + "v" + radius + "h" + -radius + "h" + (2*radius - width) + "h" + -radius + "v" + -radius + "v" + (2*radius - height) + "a" + radius + "," + radius + " 0 0 1 " + radius + "," + -radius + "z");
-	return "M" + (x + radius) + "," + y + "h" + (width - 2*radius) + "a" + radius + "," + radius + " 0 0 1 " + radius + "," + radius + "v" + (height - 2*radius) + "v" + radius + "h" + -radius + "h" + (2*radius - width) + "h" + -radius + "v" + -radius + "v" + (2*radius - height) + "a" + radius + "," + radius + " 0 0 1 " + radius + "," + -radius + "z";
+        height = height + 370;
+        width = width + 50;
+         
+        return "M" + (x + radius) + "," + y + "h" + (width - 2*radius) + "a" + radius + "," + radius + " 0 0 1 " + radius + "," + radius + "v" + (height - 2*radius) + "v" + radius + "h" + -radius + "h" + (2*radius - width) + "h" + -radius + "v" + -radius + "v" + (2*radius - height) + "a" + radius + "," + radius + " 0 0 1 " + radius + "," + -radius + "z";
 
 };
 
 
 
-var data = [40, 50, 30, 40, 90, 54, 20, 35, 60, 42];
-var legend =["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct"]
+var margin = {top: 20, right: 20, bottom: 30, left: 50},
+width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+    // set the ranges
+var x = d3.scaleTime().range([0, width]);
+var y = d3.scaleLinear().range([height, 0]);
+// gridlines in x axis function
+function make_x_gridlines() {		
+    return d3.axisBottom(x)
+        .ticks(5)
+}
+
+// gridlines in y axis function
+function make_y_gridlines() {		
+    return d3.axisLeft(y)
+        .ticks(5)
+}
+var data = [40, 50, 30, 40, 90];
+var legend =["Drafts","Signed","Verified","Active","Expired"];
 
 
-var svg = d3.select("#chart1")
+
+var data1 = [40, 50, 30, 40, 90];
+var legend1 =["Jan","Feb","Mar","Apr","May"];
+
+
+
+
+jQuery(function(){
+var chart1_svg = d3.select("#chart1")
 
 	.append("svg")
 
 	.attr("width", 800)
 
 	.attr("height", 620);
+        // add the X gridlines
+  /**chart1_svg.append("g")			
+      .attr("class", "grid")
+      .attr("transform", "translate(0," + height + ")")
+      .call(make_x_gridlines()
+          .tickSize(-height)
+          .tickFormat("")
+      )
 
-	
+  // add the Y gridlines
+  chart1_svg.append("g")			
+      .attr("class", "grid")
+      .call(make_y_gridlines()
+          .tickSize(-width)
+          .tickFormat("")
+      )
+*/
+var chart2_svg = d3.select("#chart2")
 
-var rects = svg.selectAll(".paths").data(data).enter().append("path");
+	.append("svg")
 
-rects.attr("d", function(d,i){ return rectangle(10+40*i,100-d,20,d,5)});
+	.attr("width", 800)
+
+	.attr("height", 620);	
+
+var rects = chart1_svg.selectAll(".paths").data(data).enter().append("path");
+var rects2 = chart2_svg.selectAll(".paths").data(data1).enter().append("path");
+
+rects.attr("d", function(d,i){ return rectangle(10+90*i,100-d,20,d,5)});
+rects2.attr("d", function(d,i){ return rectangle(10+90*i,100-d,20,d,5)});
 
 
-
-var texts = svg.selectAll(".text").data(legend).enter().append("text").attr("y",114).attr("x", function(d,i){return 16+40*i}).text(function(d){return d});
-
+var texts = chart1_svg.selectAll(".text").data(legend).enter().append("text").attr("y",500).attr("x", function(d,i){return 16+90*i}).text(function(d){return d});
+var texts2 = chart2_svg.selectAll(".text").data(legend1).enter().append("text").attr("y",500).attr("x", function(d,i){return 16+90*i}).text(function(d){return d});
+});
     </script>
     <style>
 body {
   padding-top: 50px;
   padding-bottom: 20px;
 }
-        path {
+        div#chart1 path {
 
-  fill:teal;
+  fill:blue;
+
+}
+
+        div#chart2 path {
+
+  fill:yellow;
 
 }
 
